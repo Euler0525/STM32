@@ -1,0 +1,2 @@
+../Core/Src/aht20.c:7:6:AHT20_Init	2
+../Core/Src/aht20.c:19:6:AHT20_Read	2
