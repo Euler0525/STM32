@@ -259,6 +259,14 @@ void HAL_UART_MspDeInit(UART_HandleTypeDef *uartHandle) {
 }
 
 /* USER CODE BEGIN 1 */
+void Uart_Loopback() {
+    HAL_UARTEx_ReceiveToIdle_DMA(&huart2, RecvData, sizeof(RecvData));
+    HAL_UARTEx_ReceiveToIdle_DMA(&huart3, RecvData, sizeof(RecvData));
+
+    __HAL_DMA_DISABLE_IT(&hdma_usart2_rx, DMA_IT_HT);
+    __HAL_DMA_DISABLE_IT(&hdma_usart3_rx, DMA_IT_HT);
+}
+
 void HAL_UARTEx_RxEventCallback(UART_HandleTypeDef *huart, uint16_t Size) {
     if (huart->Instance == USART2) {
         // Restart UART reception in interrupt mode

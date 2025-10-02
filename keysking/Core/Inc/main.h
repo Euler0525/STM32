@@ -41,6 +41,7 @@ extern "C" {
 
 /* Exported constants --------------------------------------------------------*/
 /* USER CODE BEGIN EC */
+extern uint8_t AHT20_State;
 
 /* USER CODE END EC */
 
