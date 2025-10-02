@@ -128,22 +128,12 @@ void LedKeyTcrtCtrl() {
         }
     }
 
-    // // Key3 (debounce)
-    // if (!HAL_GPIO_ReadPin(Key3_GPIO_Port, Key3_Pin)) {
-    //     HAL_Delay(50);
-    //     if (!HAL_GPIO_ReadPin(Key3_GPIO_Port, Key3_Pin)) {
-    //         HAL_GPIO_TogglePin(Red_GPIO_Port, Red_Pin);
-    //         while (!HAL_GPIO_ReadPin(Key3_GPIO_Port, Key3_Pin)) {
-    //         }
-    //     }
-    // }
-
     // TCRT
     if (HAL_GPIO_ReadPin(Tcrt_GPIO_Port, Tcrt_Pin)) {
-        HAL_GPIO_WritePin(Red_GPIO_Port, Red_Pin, GPIO_PIN_SET);
+        HAL_GPIO_WritePin(Red_GPIO_Port, Red_Pin, GPIO_PIN_RESET);
 
     } else {
-        HAL_GPIO_WritePin(Red_GPIO_Port, Red_Pin, GPIO_PIN_RESET);
+        HAL_GPIO_WritePin(Red_GPIO_Port, Red_Pin, GPIO_PIN_SET);
     }
 }
 
