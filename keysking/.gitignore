@@ -1,0 +1,20 @@
+# Ignore build directories
+Debug/
+Release/
+# Ignore CubeIDE metadata and settings
+metadata/
+settings/
+# Ignore generated files
+*.bin
+*.elf
+*.hex
+*.map
+*.list
+*.o
+# Ignore CubeMX-generated files
+*.ioc
+# Ignore temporary files
+*.log
+*.tmp
+# Ignore backup files
+*~

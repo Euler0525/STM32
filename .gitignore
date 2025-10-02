@@ -1,0 +1,34 @@
+# Build artifacts
+/Debug/
+/Release/
+build/
+*.bin
+*.elf
+*.hex
+*.map
+*.o
+*.d
+*.su
+
+# IDE-specific files
+.settings/
+.project
+.cproject
+.mxproject
+.metadata/
+.launch
+.history/
+*.log
+
+# Generated code (if not managed by CubeMX in a separate repository)
+# Example: If you don't want to track the Drivers and Middlewares folders
+# Drivers/
+# Middlewares/
+
+# Other common ignored files
+*~
+*.bak
+*.swp
+*.swo
+.DS_Store
+Thumbs.db
