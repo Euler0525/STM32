@@ -44,6 +44,7 @@ void MX_GPIO_Init(void) {
     GPIO_InitTypeDef GPIO_InitStruct = {0};
 
     /* GPIO Ports Clock Enable */
+    __HAL_RCC_GPIOD_CLK_ENABLE();
     __HAL_RCC_GPIOA_CLK_ENABLE();
     __HAL_RCC_GPIOB_CLK_ENABLE();
 
@@ -108,7 +109,7 @@ void TestLed() {
 void LedKeyTcrtCtrl() {
     // Key1
     if (!HAL_GPIO_ReadPin(Key1_GPIO_Port, Key1_Pin)) {
-        HAL_Delay(50);
+        HAL_Delay(10);
         if (!HAL_GPIO_ReadPin(Key1_GPIO_Port, Key1_Pin)) {
             HAL_GPIO_TogglePin(Relay_GPIO_Port, Relay_Pin);
             HAL_GPIO_TogglePin(Green_GPIO_Port, Green_Pin);
@@ -117,9 +118,9 @@ void LedKeyTcrtCtrl() {
         }
     }
 
-    // Key2 (debounce)
+    // FIXME Key2(Why does it take a long time for it to take effect)
     if (!HAL_GPIO_ReadPin(Key2_GPIO_Port, Key2_Pin)) {
-        HAL_Delay(50);
+        HAL_Delay(10);
         if (!HAL_GPIO_ReadPin(Key2_GPIO_Port, Key2_Pin)) {
             HAL_GPIO_TogglePin(Blue_GPIO_Port, Blue_Pin);
             while (!HAL_GPIO_ReadPin(Key2_GPIO_Port, Key2_Pin)) {
