@@ -112,8 +112,7 @@ int main(void) {
     while (1) {
         LedKeyTcrtCtrl();
         AHT20_Measure(&Temp, &Humi);
-        sprintf(msg, "Temperature: %.2f°C, Humidity: %.2f%%.\r\n", Temp,
-                Humi);
+        sprintf(msg, "Temperature: %.2f°C, Humidity: %.2f%%.\r\n", Temp, Humi);
         HAL_UART_Transmit(&huart2, (uint8_t *)msg, strlen(msg), HAL_MAX_DELAY);
         HAL_Delay(1000);
 
