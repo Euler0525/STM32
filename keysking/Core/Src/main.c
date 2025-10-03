@@ -99,6 +99,7 @@ int main(void) {
     MX_USART2_UART_Init();
     MX_USART3_UART_Init();
     MX_TIM4_Init();
+    MX_TIM2_Init();
     /* USER CODE BEGIN 2 */
     // Test LED
     TestLed();
@@ -109,6 +110,9 @@ int main(void) {
     char msg_aht20[50];
 
     // Timer
+    int counter = 0;
+    char msg_tim[50];
+    HAL_TIM_Base_Start_IT(&htim2);
     HAL_TIM_Base_Start_IT(&htim4);
     /* USER CODE END 2 */
 
@@ -121,6 +125,13 @@ int main(void) {
         sprintf(msg_aht20, "Temperature: %.2f°C, Humidity: %.2f%%.\r\n", Temp,
                 Humi);
         HAL_UART_Transmit(&huart2, (uint8_t *)msg_aht20, strlen(msg_aht20),
+                          HAL_MAX_DELAY);
+
+        // External Timer
+        counter = __HAL_TIM_GET_COUNTER(&htim2);
+        sprintf(msg_tim, "External edge counter: %d.\r\n",
+                counter + tim2_counter_loop * 10);
+        HAL_UART_Transmit(&huart2, (uint8_t *)msg_tim, strlen(msg_tim),
                           HAL_MAX_DELAY);
         HAL_Delay(1000);
 
@@ -148,7 +159,7 @@ void SystemClock_Config(void) {
     RCC_OscInitStruct.HSIState = RCC_HSI_ON;
     RCC_OscInitStruct.PLL.PLLState = RCC_PLL_ON;
     RCC_OscInitStruct.PLL.PLLSource = RCC_PLLSOURCE_HSE;
-    RCC_OscInitStruct.PLL.PLLMUL = RCC_PLL_MUL9;
+    RCC_OscInitStruct.PLL.PLLMUL = RCC_PLL_MUL2;
     if (HAL_RCC_OscConfig(&RCC_OscInitStruct) != HAL_OK) {
         Error_Handler();
     }
@@ -158,11 +169,11 @@ void SystemClock_Config(void) {
     RCC_ClkInitStruct.ClockType = RCC_CLOCKTYPE_HCLK | RCC_CLOCKTYPE_SYSCLK |
                                   RCC_CLOCKTYPE_PCLK1 | RCC_CLOCKTYPE_PCLK2;
     RCC_ClkInitStruct.SYSCLKSource = RCC_SYSCLKSOURCE_PLLCLK;
-    RCC_ClkInitStruct.AHBCLKDivider = RCC_SYSCLK_DIV1;
+    RCC_ClkInitStruct.AHBCLKDivider = RCC_SYSCLK_DIV2;
     RCC_ClkInitStruct.APB1CLKDivider = RCC_HCLK_DIV2;
     RCC_ClkInitStruct.APB2CLKDivider = RCC_HCLK_DIV1;
 
-    if (HAL_RCC_ClockConfig(&RCC_ClkInitStruct, FLASH_LATENCY_2) != HAL_OK) {
+    if (HAL_RCC_ClockConfig(&RCC_ClkInitStruct, FLASH_LATENCY_0) != HAL_OK) {
         Error_Handler();
     }
 }
