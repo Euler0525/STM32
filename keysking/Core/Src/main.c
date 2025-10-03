@@ -100,6 +100,7 @@ int main(void) {
     MX_USART3_UART_Init();
     MX_TIM4_Init();
     MX_TIM2_Init();
+    MX_TIM1_Init();
     /* USER CODE BEGIN 2 */
     // Test LED
     TestLed();
@@ -112,6 +113,11 @@ int main(void) {
     // Timer
     int counter = 0;
     char msg_tim[50];
+    char msg_range[50];
+    HAL_TIM_Base_Start(&htim1);
+    HAL_TIM_IC_Start(&htim1, TIM_CHANNEL_3);
+    HAL_TIM_IC_Start_IT(&htim1, TIM_CHANNEL_4);
+
     HAL_TIM_Base_Start_IT(&htim2);
     HAL_TIM_Base_Start_IT(&htim4);
     /* USER CODE END 2 */
@@ -120,6 +126,14 @@ int main(void) {
     /* USER CODE BEGIN WHILE */
     Uart_Loopback();
     while (1) {
+        // Ultrasonic ranging
+        UltrasonicRange();
+        HAL_Delay(100);
+
+        sprintf(msg_range, "Distance: %.2f cm.\r\n", Distance);
+        HAL_UART_Transmit(&huart2, (uint8_t *)msg_range, strlen(msg_range),
+                          HAL_MAX_DELAY);
+
         LedKeyTcrtCtrl();
         AHT20_Measure(&Temp, &Humi);
         sprintf(msg_aht20, "Temperature: %.2f°C, Humidity: %.2f%%.\r\n", Temp,
@@ -159,7 +173,7 @@ void SystemClock_Config(void) {
     RCC_OscInitStruct.HSIState = RCC_HSI_ON;
     RCC_OscInitStruct.PLL.PLLState = RCC_PLL_ON;
     RCC_OscInitStruct.PLL.PLLSource = RCC_PLLSOURCE_HSE;
-    RCC_OscInitStruct.PLL.PLLMUL = RCC_PLL_MUL2;
+    RCC_OscInitStruct.PLL.PLLMUL = RCC_PLL_MUL9;
     if (HAL_RCC_OscConfig(&RCC_OscInitStruct) != HAL_OK) {
         Error_Handler();
     }
@@ -169,11 +183,11 @@ void SystemClock_Config(void) {
     RCC_ClkInitStruct.ClockType = RCC_CLOCKTYPE_HCLK | RCC_CLOCKTYPE_SYSCLK |
                                   RCC_CLOCKTYPE_PCLK1 | RCC_CLOCKTYPE_PCLK2;
     RCC_ClkInitStruct.SYSCLKSource = RCC_SYSCLKSOURCE_PLLCLK;
-    RCC_ClkInitStruct.AHBCLKDivider = RCC_SYSCLK_DIV2;
+    RCC_ClkInitStruct.AHBCLKDivider = RCC_SYSCLK_DIV1;
     RCC_ClkInitStruct.APB1CLKDivider = RCC_HCLK_DIV2;
     RCC_ClkInitStruct.APB2CLKDivider = RCC_HCLK_DIV1;
 
-    if (HAL_RCC_ClockConfig(&RCC_ClkInitStruct, FLASH_LATENCY_0) != HAL_OK) {
+    if (HAL_RCC_ClockConfig(&RCC_ClkInitStruct, FLASH_LATENCY_2) != HAL_OK) {
         Error_Handler();
     }
 }

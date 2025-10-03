@@ -73,6 +73,8 @@ void Error_Handler(void);
 #define Tcrt_GPIO_Port GPIOB
 #define Key3_Pin GPIO_PIN_15
 #define Key3_GPIO_Port GPIOB
+#define Trig_Pin GPIO_PIN_11
+#define Trig_GPIO_Port GPIOA
 #define Relay_Pin GPIO_PIN_5
 #define Relay_GPIO_Port GPIOB
 
