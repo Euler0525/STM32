@@ -41,6 +41,7 @@ extern "C" {
 
 /* Exported constants --------------------------------------------------------*/
 /* USER CODE BEGIN EC */
+extern uint8_t AHT20_State;
 
 /* USER CODE END EC */
 
@@ -59,8 +60,6 @@ void Error_Handler(void);
 /* Private defines -----------------------------------------------------------*/
 #define Blue_Pin GPIO_PIN_6
 #define Blue_GPIO_Port GPIOA
-#define Green_Pin GPIO_PIN_7
-#define Green_GPIO_Port GPIOA
 #define Red_Pin GPIO_PIN_0
 #define Red_GPIO_Port GPIOB
 #define Key1_Pin GPIO_PIN_12
@@ -72,6 +71,8 @@ void Error_Handler(void);
 #define Tcrt_GPIO_Port GPIOB
 #define Key3_Pin GPIO_PIN_15
 #define Key3_GPIO_Port GPIOB
+#define Trig_Pin GPIO_PIN_11
+#define Trig_GPIO_Port GPIOA
 #define Relay_Pin GPIO_PIN_5
 #define Relay_GPIO_Port GPIOB
 

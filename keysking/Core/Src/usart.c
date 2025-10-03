@@ -258,6 +258,7 @@ void HAL_UART_MspDeInit(UART_HandleTypeDef *uartHandle) {
     }
 }
 
+/* USER CODE BEGIN 1 */
 void Uart_Loopback() {
     HAL_UARTEx_ReceiveToIdle_DMA(&huart2, RecvData, sizeof(RecvData));
     HAL_UARTEx_ReceiveToIdle_DMA(&huart3, RecvData, sizeof(RecvData));
@@ -266,7 +267,6 @@ void Uart_Loopback() {
     __HAL_DMA_DISABLE_IT(&hdma_usart3_rx, DMA_IT_HT);
 }
 
-/* USER CODE BEGIN 1 */
 void HAL_UARTEx_RxEventCallback(UART_HandleTypeDef *huart, uint16_t Size) {
     if (huart->Instance == USART2) {
         // Restart UART reception in interrupt mode
@@ -279,7 +279,7 @@ void HAL_UARTEx_RxEventCallback(UART_HandleTypeDef *huart, uint16_t Size) {
         if (RecvData[0] == 'R') {
             HAL_GPIO_WritePin(Red_GPIO_Port, Red_Pin, state);
         } else if (RecvData[0] == 'G') {
-            HAL_GPIO_WritePin(Green_GPIO_Port, Green_Pin, state);
+            //            HAL_GPIO_WritePin(Green_GPIO_Port, Green_Pin, state);
         } else if (RecvData[0] == 'B') {
             HAL_GPIO_WritePin(Blue_GPIO_Port, Blue_Pin, state);
         }
@@ -298,7 +298,7 @@ void HAL_UARTEx_RxEventCallback(UART_HandleTypeDef *huart, uint16_t Size) {
         if (RecvData[0] == 'R') {
             HAL_GPIO_WritePin(Red_GPIO_Port, Red_Pin, state);
         } else if (RecvData[0] == 'G') {
-            HAL_GPIO_WritePin(Green_GPIO_Port, Green_Pin, state);
+            //            HAL_GPIO_WritePin(Green_GPIO_Port, Green_Pin, state);
         } else if (RecvData[0] == 'B') {
             HAL_GPIO_WritePin(Blue_GPIO_Port, Blue_Pin, state);
         }
