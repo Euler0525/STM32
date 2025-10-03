@@ -49,7 +49,7 @@ void MX_GPIO_Init(void) {
     __HAL_RCC_GPIOB_CLK_ENABLE();
 
     /*Configure GPIO pin Output Level */
-    HAL_GPIO_WritePin(GPIOA, Blue_Pin | Green_Pin, GPIO_PIN_SET);
+    HAL_GPIO_WritePin(Blue_GPIO_Port, Blue_Pin, GPIO_PIN_SET);
 
     /*Configure GPIO pin Output Level */
     HAL_GPIO_WritePin(Red_GPIO_Port, Red_Pin, GPIO_PIN_SET);
@@ -60,8 +60,8 @@ void MX_GPIO_Init(void) {
     /*Configure GPIO pin Output Level */
     HAL_GPIO_WritePin(Relay_GPIO_Port, Relay_Pin, GPIO_PIN_RESET);
 
-    /*Configure GPIO pins : Blue_Pin Green_Pin Trig_Pin */
-    GPIO_InitStruct.Pin = Blue_Pin | Green_Pin | Trig_Pin;
+    /*Configure GPIO pins : Blue_Pin Trig_Pin */
+    GPIO_InitStruct.Pin = Blue_Pin | Trig_Pin;
     GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
     GPIO_InitStruct.Pull = GPIO_NOPULL;
     GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
@@ -101,12 +101,13 @@ void MX_GPIO_Init(void) {
 
 void TestLed() {
     HAL_GPIO_WritePin(Blue_GPIO_Port, Blue_Pin, GPIO_PIN_SET);
-    HAL_GPIO_WritePin(Green_GPIO_Port, Green_Pin, GPIO_PIN_SET);
+    //    HAL_GPIO_WritePin(Green_GPIO_Port, Green_Pin, GPIO_PIN_SET);
     HAL_GPIO_WritePin(Red_GPIO_Port, Red_Pin, GPIO_PIN_SET);
     HAL_Delay(1000);
     HAL_GPIO_WritePin(Blue_GPIO_Port, Blue_Pin, GPIO_PIN_RESET);
-    HAL_GPIO_WritePin(Green_GPIO_Port, Green_Pin, GPIO_PIN_RESET);
+    //    HAL_GPIO_WritePin(Green_GPIO_Port, Green_Pin, GPIO_PIN_RESET);
     HAL_GPIO_WritePin(Red_GPIO_Port, Red_Pin, GPIO_PIN_RESET);
+    HAL_Delay(1000);
 }
 
 void LedKeyTcrtCtrl() {
@@ -115,7 +116,7 @@ void LedKeyTcrtCtrl() {
         HAL_Delay(10);
         if (!HAL_GPIO_ReadPin(Key1_GPIO_Port, Key1_Pin)) {
             HAL_GPIO_TogglePin(Relay_GPIO_Port, Relay_Pin);
-            HAL_GPIO_TogglePin(Green_GPIO_Port, Green_Pin);
+            //            HAL_GPIO_TogglePin(Green_GPIO_Port, Green_Pin);
             while (!HAL_GPIO_ReadPin(Key1_GPIO_Port, Key1_Pin)) {
             }
         }

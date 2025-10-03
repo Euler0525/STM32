@@ -98,12 +98,17 @@ int main(void) {
     MX_I2C1_Init();
     MX_USART2_UART_Init();
     MX_USART3_UART_Init();
-    MX_TIM4_Init();
-    MX_TIM2_Init();
+
     MX_TIM1_Init();
+    MX_TIM2_Init();
+    MX_TIM3_Init();
+    MX_TIM4_Init();
     /* USER CODE BEGIN 2 */
     // Test LED
     TestLed();
+
+    // PWM LED
+    HAL_TIM_PWM_Start(&htim3, TIM_CHANNEL_2);
 
     // Temperature and humidity
     AHT20_Init();
@@ -133,6 +138,8 @@ int main(void) {
         sprintf(msg_range, "Distance: %.2f cm.\r\n", Distance);
         HAL_UART_Transmit(&huart2, (uint8_t *)msg_range, strlen(msg_range),
                           HAL_MAX_DELAY);
+        // PWM LED
+        PwmLed();
 
         LedKeyTcrtCtrl();
         AHT20_Measure(&Temp, &Humi);

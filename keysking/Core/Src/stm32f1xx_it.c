@@ -352,7 +352,7 @@ void EXTI15_10_IRQHandler(void) {
 /* USER CODE BEGIN 1 */
 void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin) {
     if (!HAL_GPIO_ReadPin(Key1_GPIO_Port, Key1_Pin)) {
-        HAL_GPIO_TogglePin(Green_GPIO_Port, Green_Pin);
+        //        HAL_GPIO_TogglePin(Green_GPIO_Port, Green_Pin);
         HAL_GPIO_TogglePin(Relay_GPIO_Port, Relay_Pin);
         while (HAL_GPIO_ReadPin(Key1_GPIO_Port, Key1_Pin) == 0) {
         }
