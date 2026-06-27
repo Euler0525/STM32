@@ -11,7 +11,7 @@
   *
   * This software is licensed under terms that can be found in the LICENSE file
   * in the root directory of this software component.
-  * If no LICENSE file comes with this software, it is provided AS-IS.
+  * If no LICENSE file comes with this software, it is provided as-IS.
   *
   ******************************************************************************
   */
@@ -25,6 +25,9 @@
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 #include "tcp_client.h"
+#include "tcp_server.h"
+#include "udp_server.h"
+#include "udp_client.h"
 #include <stdio.h>
 
 /* USER CODE END Includes */
@@ -36,6 +39,19 @@
 
 /* Private define ------------------------------------------------------------*/
 /* USER CODE BEGIN PD */
+/* Application mode selector: edit this single line to switch the active W5500
+ * mode. Available options:
+ *   APP_MODE_TCP_CLIENT  - W5500 connects to a remote TCP server and echoes
+ *   APP_MODE_TCP_SERVER  - W5500 accepts one TCP client and echoes
+ *   APP_MODE_UDP_SERVER  - W5500 echoes UDP datagrams back to their sender
+ *   APP_MODE_UDP_CLIENT  - W5500 sends a greeting then echoes UDP datagrams
+ */
+#define APP_MODE_TCP_CLIENT  0
+#define APP_MODE_TCP_SERVER  1
+#define APP_MODE_UDP_SERVER  2
+#define APP_MODE_UDP_CLIENT  3
+
+#define APP_MODE             APP_MODE_TCP_SERVER
 
 /* USER CODE END PD */
 
@@ -93,7 +109,17 @@ int main(void)
   MX_USART1_UART_Init();
   MX_SPI1_Init();
   /* USER CODE BEGIN 2 */
+#if (APP_MODE == APP_MODE_TCP_CLIENT)
   TCP_Client_Init();
+#elif (APP_MODE == APP_MODE_TCP_SERVER)
+  TCP_Server_Init();
+#elif (APP_MODE == APP_MODE_UDP_SERVER)
+  UDP_Server_Init();
+#elif (APP_MODE == APP_MODE_UDP_CLIENT)
+  UDP_Client_Init();
+#else
+#error "Unsupported APP_MODE"
+#endif
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -103,7 +129,15 @@ int main(void)
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
+#if (APP_MODE == APP_MODE_TCP_CLIENT)
     TCP_Client_Process();
+#elif (APP_MODE == APP_MODE_TCP_SERVER)
+    TCP_Server_Process();
+#elif (APP_MODE == APP_MODE_UDP_SERVER)
+    UDP_Server_Process();
+#elif (APP_MODE == APP_MODE_UDP_CLIENT)
+    UDP_Client_Process();
+#endif
   }
   /* USER CODE END 3 */
 }
@@ -172,7 +206,7 @@ void Error_Handler(void)
 }
 #ifdef USE_FULL_ASSERT
 /**
-  * @brief  Reports the name of the source file and the source line number
+  * @brief  Reports the name of the source file and the line number
   *         where the assert_param error has occurred.
   * @param  file: pointer to the source file name
   * @param  line: assert_param error line source number

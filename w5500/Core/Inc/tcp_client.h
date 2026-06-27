@@ -6,9 +6,10 @@
   ******************************************************************************
   * @attention
   *
-  * Public interface of the W5500 TCP client. See tcp_client.c for the
-  * platform glue between the STM32 HAL (SPI + GPIO) and the Wiznet
-  * ioLibrary, and the non-blocking TCP client state machine.
+  * Public interface of the W5500 TCP client. The chip-level platform glue
+  * (STM32 HAL SPI/GPIO <-> Wiznet ioLibrary callbacks, reset, network settings,
+  * socket buffer sizing) lives in w5500_port.c; tcp_client.c only opens its
+  * socket and runs the non-blocking connect/echo/disconnect state machine.
   *
   ******************************************************************************
   */
@@ -32,11 +33,10 @@ extern "C" {
 
 /* Exported functions ------------------------------------------------*/
 /**
-  * @brief  Initialize the W5500 chip and open the TCP client socket.
-  * @note   Registers the ioLibrary platform callbacks, performs a hardware
-  *         reset, writes and verifies the network settings, sizes the socket
-  *         buffers and finally opens socket @ref TCP_CLIENT_SOCKET in TCP
-  *         mode on @ref TCP_CLIENT_LOCAL_PORT.
+  * @brief  Bring up the W5500 chip and open the TCP client socket.
+  * @note   Calls W5500_Init() for the chip-level bring-up (callbacks, reset,
+  *         network settings, socket buffer sizing) and then opens socket
+  *         @ref TCP_CLIENT_SOCKET in TCP mode on @ref TCP_CLIENT_LOCAL_PORT.
   * @retval None
   */
 void TCP_Client_Init(void);
